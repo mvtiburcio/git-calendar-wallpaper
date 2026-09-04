@@ -17,3 +17,6 @@ Entrada de etapa e troca de preview em 200 ms, transform/opacity, ease-out quart
 
 ## Wallpaper
 Doze temas em sólidos, gradientes e texturas SVG. Avatar circular junto do username. Mockup acrescenta relógio somente na interface, nunca no download. Escala e posição limitadas à área segura; links antigos preservam o render anterior por default.
+
+## Landing editorial
+Composição celular + monitor como assinatura, seções com bordas discretas e respiro de 90 px (54 px mobile). Galeria agrupada com previews reais; monitor open source usa monospace para SHA e métricas, texto normal para mensagens. FAQ em details nativos. Entrada de seção uma única vez e crossfade dos mockups em 200 ms, respeitando reduced motion. No mobile aparelhos empilhados, sem carrossel obrigatório.

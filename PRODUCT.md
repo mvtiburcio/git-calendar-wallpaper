@@ -24,3 +24,6 @@ Painéis técnicos com todos os controles expostos, modais longos, mensagens con
 
 ## Accessibility & Inclusion
 Teclado, foco visível, contraste WCAG AA no texto, toque mínimo de 44 px, layout sem overflow desde 360 px e reduced motion. Alternativa manual para aparelhos sem criação de atalhos por descrição.
+
+## Landing pública
+Apresentação completa, em português, com demonstração celular e desktop, galeria de 12 temas, recursos, orientação para iPhone e FAQ. CTA único inicia o assistente; seleção de tema preserva outras escolhas. Monitor mostra atividade real do repositório, não uso do produto, com consulta a cada cinco minutos enquanto visível. Sem prova social inventada.

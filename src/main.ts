@@ -1,4 +1,6 @@
 import './style.css';
+import {initLanding} from './landing';
+const landing=document.querySelector('#home')!.outerHTML;
 import {options,render} from '../lib/render';
 import {themes} from '../lib/themes';
 import type {Calendar} from '../lib/calendar';
@@ -9,9 +11,9 @@ const years=Array.from({length:new Date().getUTCFullYear()-2007},(_,i)=>new Date
 const labels=['Seu perfil','Sua tela','Seu estilo','Usar wallpaper'];
 const arrow='<span aria-hidden="true">↗</span>';
 document.querySelector('#app')!.innerHTML=`
-<header class="site-header"><a class="brand" href="/" aria-label="Git Calendar Wallpaper, início"><span class="brand-icon" aria-hidden="true">▦</span>git calendar<span class="brand-suffix">wallpaper</span></a><a class="source-link" href="https://github.com/mvtiburcio/git-calendar-wallpaper" target="_blank" rel="noopener">Código aberto ${arrow}</a></header>
+<header class="site-header"><a class="brand" href="/" aria-label="Git Calendar Wallpaper, início"><span class="brand-icon" aria-hidden="true">▦</span>git calendar<span class="brand-suffix">wallpaper</span></a><nav class="landing-nav"><a href="#como-funciona">Como funciona</a><a href="#temas">Temas</a><a href="#open-source">Open source</a><a href="#faq">FAQ</a><button data-create class="primary">Criar meu wallpaper</button></nav><a class="source-link" href="https://github.com/mvtiburcio/git-calendar-wallpaper" target="_blank" rel="noopener">Código aberto ${arrow}</a></header>
 <main>
-<section id="home" class="hero"><div class="hero-copy"><span class="eyebrow"><i></i> FEITO COM O SEU GITHUB</span><h1>Seu código.<br>Seu ritmo.<br><span>Sua tela.</span></h1><p>Transforme suas contribuições em um wallpaper com a sua cara. Personalize, baixe e deixe atualizar.</p><button id="start" class="primary">Criar meu wallpaper ${arrow}</button><div class="hero-note">Sem login · Sem marca-d’água · Código aberto</div><div class="hero-swatches" aria-label="Experimentar tema na demonstração">${['github','aurora','paper'].map((id,i)=>`<button data-demo="${id}" aria-pressed="${i===0}">${themes.find(t=>t.id===id)!.name}</button>`).join('')}</div></div><div class="hero-art"><div class="phone hero-phone"><div id="hero-image" aria-hidden="true"></div><div class="mock-clock" aria-hidden="true"><small>Seu próximo capítulo</small><b>09:41</b></div><div class="phone-island" aria-hidden="true"></div><div class="phone-bottom" aria-hidden="true"></div></div><p class="demo-caption">Uma prévia do que pode ser seu.<br>Calendário demonstrativo.</p></div></section>
+${landing}
 <section id="wizard" hidden aria-label="Criar wallpaper"><div class="wizard-top"><button id="home-back" class="text-button">← Início</button><span class="eyebrow">DO PERFIL PARA SUA TELA</span></div><ol class="steps" aria-label="Progresso">${labels.map((label,i)=>`<li><span class="step-number">${i+1}</span><span>${label}</span></li>`).join('')}</ol>
 <div class="editor"><aside class="preview-side"><div class="preview-toolbar"><span>PRÉVIA</span><button id="expand" class="text-button" aria-expanded="false">Ampliar</button></div><div id="preview-frame" class="phone"><div id="preview" tabindex="0" aria-label="Calendário. Use as setas para explorar os dias."></div><div class="mock-clock" aria-hidden="true"><small>Seu GitHub, todos os dias</small><b>09:41</b></div><div class="phone-island" aria-hidden="true"></div></div><p id="preview-info" class="preview-info">Seu calendário aparece aqui.</p><p id="day-info" class="hint" aria-live="polite"></p></aside>
 <div class="controls"><form id="settings" novalidate>
@@ -57,8 +59,9 @@ async function search(){
   }catch(e){if(!current.current())return;calendar=undefined;draw();$('#profile-result').hidden=true;$('#profile-error').textContent=(e as Error).message;if(step===2)$('#style-error').textContent=(e as Error).message;notice('Não foi possível carregar. Confira o perfil e tente novamente.');}
   finally{if(current.current()){loading=false;refreshButtons();}}
 }
-$('#start').addEventListener('click',()=>{$('#home').hidden=true;$('#wizard').hidden=false;draw();go(0);});
-const home=()=>{$('#wizard').hidden=true;$('#home').hidden=false;$('#start').focus();};
+const openWizard=()=>{$('#home').hidden=true;$('#wizard').hidden=false;document.body.classList.add('editing');window.scrollTo({top:0,behavior:'instant'});draw();go(0);};
+initLanding(demo,openWizard,id=>{const t=themes.find(t=>t.id===id)!;field('theme').value=t.id;field('bg').value=t.bg;field('end').value=t.end;field('color').value=t.accent;field('texture').value=t.texture;renderThemes();});
+const home=()=>{document.body.classList.remove('editing');$('#wizard').hidden=true;$('#home').hidden=false;$('#start').focus();};
 $('#home-back').addEventListener('click',home);$('#back').addEventListener('click',()=>step===0?home():go(step-1));
 $('#search').addEventListener('click',()=>void search());
 field('username').addEventListener('input',()=>{request.cancel();loading=false;calendar=undefined;$('#profile-result').hidden=true;$('#profile-error').textContent='';notice('Busque o perfil para continuar.');draw();refreshButtons();});
@@ -78,6 +81,5 @@ async function copy(text:string,success:string){try{await navigator.clipboard.wr
 $('#copy-url').addEventListener('click',()=>void copy(graphURL(),'URL copiada. Ela acompanha as atualizações do GitHub.'));
 $('#copy-prompt').addEventListener('click',()=>{try{const text=shortcutPrompt(graphURL(),$<HTMLInputElement>('#time').value,$<HTMLSelectElement>('#target').value);void copy(text,'Instrução copiada. Agora cole na criação por descrição do app Atalhos.');}catch(e){notice((e as Error).message);}});
 for(const id of ['time','target'])$('#'+id).addEventListener('input',updatePrompt);
-document.querySelectorAll<HTMLElement>('[data-demo]').forEach(button=>button.addEventListener('click',()=>{$('#hero-image').innerHTML=demoRender(button.dataset.demo);document.querySelectorAll('[data-demo]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));}));
 $('#preview').addEventListener('pointerover',e=>{const label=(e.target as Element).closest('[aria-label]')?.getAttribute('aria-label');if(label&&label.includes(':'))$('#day-info').textContent=label;});
 $('#preview').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();const cells=[...$('#preview').querySelectorAll<SVGElement>('[tabindex]')];dayIndex=Math.max(0,Math.min(cells.length-1,dayIndex+(e.key==='ArrowLeft'||e.key==='ArrowUp'?-1:1)));cells.forEach(c=>c.classList.remove('day-focus'));cells[dayIndex]?.classList.add('day-focus');$('#day-info').textContent=cells[dayIndex]?.getAttribute('aria-label')??'';});

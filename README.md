@@ -126,3 +126,6 @@ Resoluções verificadas em fontes Apple; outros modelos podem usar dimensões p
 ## Licença
 
 Código MIT. JetBrains Mono: SIL Open Font License, incluída em `public/fonts/OFL.txt`. Projeto independente, sem vínculo com GitHub ou The Git Calendar.
+
+## Landing e atividade pública
+A home apresenta os 12 temas, recursos e FAQ. `GET /api/project-activity` consulta apenas `mvtiburcio/git-calendar-wallpaper` pela API pública do GitHub, sem token: stars, forks, cinco commits da branch principal e até oito contribuidores (não o total). Cache CDN de cinco minutos. O monitor consulta quando visível e pausa com a página oculta; não é um feed instantâneo. Falhas mantêm a última consulta no navegador com aviso de dados desatualizados; sem consulta anterior, mostram indisponibilidade. A API pública pode sofrer rate limit; nenhum erro é tratado como contagem zero.
