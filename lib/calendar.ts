@@ -3,6 +3,7 @@ export type Day = { date: string; count: number; level: number; future: boolean 
 export type Calendar = { username: string; period: string; total: number; days: Day[]; fetchedAt: string; avatarData?: string | null };
 export class HttpError extends Error { constructor(public status: number, message: string) { super(message); } }
 export function validate(username: string, period: string) {
+  if(!username.trim())throw new HttpError(400, 'Informe seu username do GitHub');
   if (!/^[a-z\d](?:[a-z\d-]{0,37}[a-z\d])?$/i.test(username) || username.includes('--')) throw new HttpError(400, 'Username inválido.');
   if (period !== 'last-year' && (!/^\d{4}$/.test(period) || +period < 2008 || +period > new Date().getUTCFullYear())) throw new HttpError(400, 'Período inválido.');
 }

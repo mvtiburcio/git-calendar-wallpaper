@@ -13,7 +13,7 @@ export default async function handler(req:IncomingMessage,res:ServerResponse){
   if(req.method!=='GET'){res.statusCode=405;res.end();return;}
   try {
     const p=params(req);let o;try{o=options(p);}catch(e){throw new HttpError(400,(e as Error).message);}
-    const data=await fetchCalendar(p.get('username')??'mvtiburcio',p.get('period')??'last-year');
+    const data=await fetchCalendar(p.get('username')??'',p.get('period')??'last-year');
     if(o.avatar)data.avatarData=await fetchAvatar(data.username);
     const svg=render(data,o,(text,x,y,size,fill)=>{const path=font.getPath(text,x-font.getAdvanceWidth(text,size)/2,y,size);path.fill=fill;return path.toSVG(2);});
     const body=o.format==='svg'?Buffer.from(svg):await sharp(Buffer.from(svg)).png().toBuffer();

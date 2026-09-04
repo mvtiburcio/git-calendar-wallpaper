@@ -29,9 +29,11 @@ npm run build
 ## API
 
 ```text
-GET /api/contributions?username=mvtiburcio&period=last-year
-GET /graph?username=mvtiburcio&background=github&color=green&shape=rounded&height=2796&width=1290
+GET /api/contributions?username=seu-username&period=last-year
+GET /graph?username=seu-username&background=github&color=green&shape=rounded&height=2796&width=1290
 ```
+
+Nas duas rotas, `username` é obrigatório. Ausente ou vazio retorna HTTP 400; não há perfil padrão. Substitua `seu-username` nos exemplos pelo perfil desejado.
 
 `/api/contributions` retorna `username`, `period`, `total`, `fetchedAt` e `days`, cada dia com `date`, `count`, `level` (0–4) e `future`.
 
@@ -39,7 +41,7 @@ Parâmetros de `/graph`:
 
 | Parâmetro | Valores | Default |
 | --- | --- | --- |
-| username | Username público do GitHub | mvtiburcio |
+| username | Username público do GitHub | Obrigatório, sem padrão |
 | period | last-year ou ano entre 2008 e o atual | last-year |
 | background | github, light, oled | github |
 | color | green ou hexadecimal #RRGGBB | green |
