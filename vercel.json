@@ -1,0 +1,1 @@
+{"buildCommand":"npm run build","outputDirectory":"dist","rewrites":[{"source":"/graph","destination":"/api/graph"}],"functions":{"api/graph.ts":{"includeFiles":"public/fonts/**"}}}
