@@ -3,7 +3,7 @@ import {options,render} from '../lib/render';
 import type {Calendar} from '../lib/calendar';
 document.querySelector('#app')!.innerHTML=`
 <header><a class="brand" href="/">▦ <span>git calendar<span class="muted"> / wallpaper</span></span></a><a href="https://github.com/mvtiburcio/git-calendar-wallpaper" target="_blank" rel="noopener">Código aberto ↗</a></header>
-<main><section class="intro"><p class="eyebrow">DO SEU PERFIL PARA SUA TELA</p><h1>Seu ritmo.<br>Pixel por pixel.</h1><p>Contribuições reais do GitHub. Um wallpaper que acompanha você.</p></section><div class="workspace"><form id="settings"><div class="section-title">Configure seu calendário <span>01 — 06</span></div>
+<main><section class="intro"><p class="eyebrow">DO SEU PERFIL PARA SUA TELA</p><h1>Seu ritmo. <br>Pixel por pixel.</h1><p>Contribuições reais do GitHub. Um wallpaper que acompanha você.</p></section><div class="workspace"><form id="settings"><div class="section-title">Configure seu calendário</div>
 <label>Username do GitHub<input name="username" value="mvtiburcio" required maxlength="39" autocomplete="off" spellcheck="false"></label>
 <label>Período<select name="period"><option value="last-year">Últimos 12 meses</option>${Array.from({length:new Date().getUTCFullYear()-2007},(_,i)=>new Date().getUTCFullYear()-i).map(y=>`<option>${y}</option>`).join('')}</select></label>
 <label>Tamanho<select id="preset"><option value="1290,2796">Celular · 1290 × 2796</option><option value="1920,1080">Full HD · 1920 × 1080</option><option value="3840,2160">4K · 3840 × 2160</option><option value="custom">Personalizado</option></select></label>
