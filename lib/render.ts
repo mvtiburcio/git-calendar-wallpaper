@@ -29,5 +29,5 @@ export function render(calendar:Calendar,o:Options,textRenderer?:TextRenderer) {
   }).join('');
   const font=Math.min(w*.028,h*.035),bottom=y0+gh+font*2;
   const label=calendar.period==='last-year'?'contribuições · últimos 12 meses':`contribuições · ${calendar.period}`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Calendário de contribuições de ${esc(calendar.username)}"><rect width="${w}" height="${h}" fill="${bg}"/>${cells}${text(calendar.total.toLocaleString('pt-BR'),w/2,bottom,font*1.65,accent)}${text(label,w/2,bottom+font*1.5,font*.8,ink)}${text('@'+calendar.username,w/2,bottom+font*3,font*.75,ink)}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="group" aria-label="Calendário de contribuições de ${esc(calendar.username)}"><rect width="${w}" height="${h}" fill="${bg}"/>${cells}${text(calendar.total.toLocaleString('pt-BR'),w/2,bottom,font*1.65,light?ink:accent)}${text(label,w/2,bottom+font*1.5,font*.8,ink)}${text('@'+calendar.username,w/2,bottom+font*3,font*.75,ink)}</svg>`;
 }
