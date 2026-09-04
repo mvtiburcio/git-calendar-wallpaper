@@ -14,3 +14,14 @@ test('resposta antiga e cancelamento nunca substituem pedido atual',()=>{const r
 test('instrução usa URL literal, horário e tela com segurança de falha',()=>{const url='https://example.com/graph?theme=aurora&avatar=1';const prompt=shortcutPrompt(url,'06:00','lock');assert.ok(prompt.includes(url));assert.match(prompt,/06:00/);assert.match(prompt,/tela bloqueada/);assert.match(prompt,/sem mudar o wallpaper/);assert.throws(()=>shortcutPrompt(url,'99:00','lock'));});
 
 test('SVGs na mesma página não compartilham gradientes diferentes',()=>{const a=render(data,options(new URLSearchParams('theme=aurora'))),b=render(data,options(new URLSearchParams('theme=sunset')));const id=(s:string)=>s.match(/linearGradient id="([^"]+)"/)![1];assert.notEqual(id(a),id(b));assert.ok(a.includes(`url(#${id(a)})`));assert.ok(b.includes(`url(#${id(b)})`));});
+
+test('avatar mantém respiro abaixo do período nos três presets',()=>{
+  for(const [width,height] of [[1290,2796],[1920,1080],[3840,2160]]){
+    const o=options(new URLSearchParams({avatar:'1',width:String(width),height:String(height)}));
+    const svg=render({...data,avatarData:'data:image/png;base64,AAAA'},o);
+    const avatarY=Number(svg.match(/<image[^>]* y="([^"]+)"/)![1]);
+    const periodY=Number(svg.match(/<text[^>]* y="([^"]+)"[^>]*>contribuições/)![1]);
+    const font=Math.min(width*.028,height*.035);
+    assert.ok(avatarY-periodY>=font,`Respiro insuficiente em ${width} × ${height}`);
+  }
+});
