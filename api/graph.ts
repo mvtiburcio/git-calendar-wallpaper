@@ -1,3 +1,4 @@
+import {fetchAvatar} from '../lib/avatar.js';
 import type { IncomingMessage,ServerResponse } from 'node:http';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -13,6 +14,7 @@ export default async function handler(req:IncomingMessage,res:ServerResponse){
   try {
     const p=params(req);let o;try{o=options(p);}catch(e){throw new HttpError(400,(e as Error).message);}
     const data=await fetchCalendar(p.get('username')??'mvtiburcio',p.get('period')??'last-year');
+    if(o.avatar)data.avatarData=await fetchAvatar(data.username);
     const svg=render(data,o,(text,x,y,size,fill)=>{const path=font.getPath(text,x-font.getAdvanceWidth(text,size)/2,y,size);path.fill=fill;return path.toSVG(2);});
     const body=o.format==='svg'?Buffer.from(svg):await sharp(Buffer.from(svg)).png().toBuffer();
     if(body.length>4400000)throw new HttpError(413,'Imagem grande demais. Reduza as dimensões ou use SVG.');

@@ -73,14 +73,55 @@ Build e rotas estão em `vercel.json`. Nenhuma variável secreta é necessária.
 
 ## Atualização no iPhone
 
-1. Abra o site publicado, escolha o formato do seu aparelho e clique em **Copiar URL**.
-2. No app **Atalhos**, crie um atalho com a ação **URL** e cole o link.
-3. Adicione **Obter Conteúdo de URL**, usando GET.
-4. Adicione **Definir Foto do Papel de Parede** (o nome pode variar conforme o idioma/versão do iOS), usando a imagem retornada. Escolha a tela bloqueada e/ou inicial.
-5. Desative a prévia de confirmação na ação, quando disponível, e execute manualmente uma vez para conceder as permissões.
-6. Em **Automação**, crie uma automação pessoal por **Hora do Dia**, diária, para executar esse atalho. Escolha execução imediata quando disponível.
+Na etapa **Usar wallpaper**, escolha horário e tela e clique em **Copiar instrução pronta**.
 
-O site atualiza a imagem da URL, mas não altera o wallpaper sozinho. A automação depende do aparelho e da conexão. Não adicione parâmetros aleatórios: a atualização respeita o cache de uma hora. Em falha de rede, mantenha o wallpaper anterior.
+1. Copie a instrução personalizada.
+2. Abra Atalhos e cole no recurso de criação por descrição com Apple Intelligence, se disponível.
+3. Revise o atalho e a automação, execute uma vez e conceda as permissões necessárias.
+
+A instrução inclui a URL PNG exata, GET, tela escolhida, horário diário (06:00 por padrão), preservação da imagem e encerramento sem alterar o wallpaper se houver falha. O site não instala automações. Se a IA não conseguir configurar a automação, a instrução pede que explique o passo restante.
+
+O recurso depende de aparelho, idioma e versão do sistema. A [Apple descreve criação por linguagem natural](https://developer.apple.com/apple-intelligence/) e a [apresenta no WWDC26](https://developer.apple.com/videos/play/wwdc2026/310/). Não confundir com a ação “Usar modelo”, que não é por si só criação de atalhos por descrição. A execução real deve ser testada no aparelho.
+
+### Meu iPhone não tem esse recurso
+
+1. Crie um atalho com a URL obtida em **Copiar URL da imagem**.
+2. Adicione **Obter Conteúdo de URL** (GET), seguido de **Definir Foto do Papel de Parede**, usando a imagem recebida.
+3. Escolha a tela, desative a prévia quando disponível e execute uma vez para testar e autorizar.
+4. Em **Automação**, configure execução diária por Hora do Dia e selecione esse atalho. Use execução imediata quando disponível.
+
+Os nomes variam entre versões. Em erro de rede, mantenha a imagem anterior. A URL respeita cache de uma hora; não acrescente parâmetros aleatórios.
+
+## Personalização avançada (v2)
+
+A interface segue Perfil → Tela → Estilo → Usar wallpaper. Doze temas em três categorias: GitHub/OLED/Neve/Oceano/Lavanda/Areia (sólidos), Aurora/Pôr do sol/Crepúsculo (gradientes), Papel/Pontilhado/Topográfico (texturas). Os temas preenchem controles editáveis, sem bloquear personalização.
+
+Parâmetros adicionais de `/graph`:
+
+| Parâmetro | Valores / limites | Default sem parâmetro |
+| --- | --- | --- |
+| theme | github, oled, snow, ocean, lavender, sand, aurora, sunset, twilight, paper, dots, topo | aparência legada |
+| bg / end | #RRGGBB; cores inicial/final | tema ou fundo legado |
+| angle | 0–360 graus | 135 |
+| texture | none, paper, dots, topo | tema ou none |
+| intensity | 0–0.35 | 0.12 |
+| avatar | 0 ou 1 | 0 (links antigos); interface usa 1 |
+| scale | 0.6–1.15 | 1 |
+| position | 0–1, limitada à área segura | 0.5 |
+
+Cores e textura explícitas prevalecem sobre o tema. Parâmetros de temas não alteram contagens. Sem os parâmetros novos, links antigos preservam aparência. A API de contribuições acrescenta `avatarData` (PNG em data URI ou null), sem remover campos anteriores.
+
+Avatares: apenas HTTPS em github.com e avatars.githubusercontent.com, até 500 KB de entrada, timeout de 5 s, limite de 4 milhões de pixels, normalização para PNG 128 × 128 e incorporação no SVG/PNG. Em falha, a inicial do username substitui a foto. Não há upload ou URL arbitrária.
+
+Texturas são SVG determinístico. Prévia e download compartilham renderizador; o relógio pertence somente ao mockup. Transições usam transform/opacity por 200 ms e respeitam reduced motion.
+
+### Modelos de iPhone
+
+Resoluções verificadas em fontes Apple; outros modelos podem usar dimensões personalizadas:
+- [iPhone 16 e 16 Plus](https://www.apple.com/cz/iphone-16/specs/): 1179 × 2556 e 1290 × 2796.
+- [iPhone 15](https://support.apple.com/en-us/111831) e [15 Plus](https://support.apple.com/en-us/111830): 1179 × 2556 e 1290 × 2796.
+- [iPhone 16 Pro](https://support.apple.com/en-us/121031): 1206 × 2622.
+- [iPhone 16 Pro Max](https://support.apple.com/en-us/121032): 1320 × 2868.
 
 ## Licença
 
